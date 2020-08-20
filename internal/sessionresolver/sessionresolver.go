@@ -22,9 +22,9 @@ type Resolver struct {
 
 // New creates a new session resolver.
 func New(config httptransport.Config) *Resolver {
-	primary, err := httptransport.NewDNSClient(config, "doh://powerdns")
+	primary, err := httptransport.NewDNSClient(config, "doh://powerdns", "", "")
 	runtimex.PanicOnError(err, "cannot create powerdns resolver")
-	fallback, err := httptransport.NewDNSClient(config, "system:///")
+	fallback, err := httptransport.NewDNSClient(config, "system:///", "", "")
 	runtimex.PanicOnError(err, "cannot create system resolver")
 	return &Resolver{
 		Primary:         primary,

@@ -14,6 +14,7 @@ import (
 
 	"github.com/iancoleman/strcase"
 	"github.com/ooni/probe-engine/experiment/dash"
+	"github.com/ooni/probe-engine/experiment/dnscheck"
 	"github.com/ooni/probe-engine/experiment/example"
 	"github.com/ooni/probe-engine/experiment/fbmessenger"
 	"github.com/ooni/probe-engine/experiment/handler"
@@ -467,6 +468,18 @@ var experimentsByName = map[string]func(*Session) *ExperimentBuilder{
 			},
 			interruptible: true,
 			inputPolicy:   InputNone,
+		}
+	},
+
+	"dnscheck": func(session *Session) *ExperimentBuilder {
+		return &ExperimentBuilder{
+			build: func(config interface{}) *Experiment {
+				return NewExperiment(session, dnscheck.NewExperimentMeasurer(
+					*config.(*dnscheck.Config),
+				))
+			},
+			config:      &dnscheck.Config{},
+			inputPolicy: InputRequired,
 		}
 	},
 
